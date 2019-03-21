@@ -25,7 +25,7 @@ void Level::levelDraw(Sprites* sprite)
     if (foodNode->food != NULL) sprite->drawSelfMasked(foodNode->food->getX(), foodNode->food->getY(), foodSprites, foodNode->food->getFrame());
     foodNode = foodNode->next;
   }
-  drawSnakes(sprite);
+  //drawSnakes(sprite);
 }
 
 void Level::collisionCheck(Maus* mouse)
@@ -55,9 +55,9 @@ void Level::collisionCheck(Maus* mouse)
     foodNode = foodNode->next;
   }
 
-  if ((x1 + 4) > (goalX - goalRadius) && (x1 + 4) < (goalX + goalRadius))
+  if (goalX < x2 && (goalX + goalRadius) > x1)
   {
-    if ((y1 + 4) > (goalY - goalRadius) && (y1 + 4) < (goalY + goalRadius))
+    if (goalY < y2 && (goalY + goalRadius) > y1)
     {
       start(mouse);
     }
@@ -68,9 +68,9 @@ void Level::collisionCheck(Maus* mouse)
 bool Level::spotIsTaken(byte x, byte y)
 {
   foodNode* current = foodRoot;
-  if (x > goalX - goalRadius && x < goalX + goalRadius)
+  if (x > goalX - (2 * goalRadius) && x < goalX + (2 * goalRadius))
   {
-    if (y > goalY - goalRadius && y < goalY + goalRadius)
+    if (y > goalY - (2 * goalRadius) && y < goalY + (2 * goalRadius))
     {
       return true;
     }
@@ -236,4 +236,3 @@ void Level::cleanUp()
     current = next;
   }
 }
-

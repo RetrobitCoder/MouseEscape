@@ -26,6 +26,10 @@ void setup()
 {
   ab.begin();
   ab.clear();
+  sprites.drawSelfMasked(0,0, ArduboyTitle_RetrobitCoder, 0);
+  ab.display();
+  ab.delayShort(3000);
+  ab.clear();
   ab.initRandomSeed();
 }
 
@@ -115,6 +119,7 @@ void gameLoop()
   ab.clear();
   draw();
   ab.delayShort(100);
+  updateGame();
 }
 
 void gameWon()
@@ -144,7 +149,6 @@ void loop()
       break;
     case GameState::Play:
       gameLoop();
-      updateGame();
       break;
     case GameState::Pause:
       break;
