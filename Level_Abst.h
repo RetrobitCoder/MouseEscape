@@ -28,6 +28,7 @@ class Level_Abst
 {
   public:
     Arduboy2 ab;
+    byte levelNum = 0;
     byte goalX = WIDTH/2;
     byte goalY = 20;
     byte goalRadius = mouseSprite[0]/2;
@@ -67,7 +68,7 @@ class Level_Abst
     void setNum(int num)
     {
       levelNum = num;
-      if (levelNum > 100) state = LevelState::Won;
+      if (levelNum > 25) state = LevelState::Won;
     }
 
     void addPoints(unsigned int amount)
@@ -87,7 +88,6 @@ class Level_Abst
     }
     
   private:
-    int levelNum = 0;
     LevelState state = LevelState::Running;
     unsigned int lives = 3;
     byte foodCollected = 0;

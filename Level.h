@@ -10,7 +10,6 @@ class Level : public Level_Abst
     void collisionCheck(Maus* mouse);
 
   private:
-    byte levelNum = 0;
     byte AMOUNT_FOOD = 5;
     foodNode* foodRoot;
     enemyNode* enemyRoot;
@@ -24,4 +23,3 @@ class Level : public Level_Abst
     void drawSnakes(Sprites* sprite);
     void cleanUp();
 };
-

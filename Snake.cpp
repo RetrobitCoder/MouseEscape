@@ -33,7 +33,23 @@ void Snake::updateSnake(byte newX, byte newY)
 
 void Snake::drawSnake(Sprites* sprite)
 {
-  sprite->drawSelfMasked(32,0, snakeSprite, 0);
+  byte frame = 0;
+  switch(this->facing)
+  {
+    case 'u':
+      frame = 0;
+      break;
+    case 'd':
+      frame = 5;
+      break;
+    case 'r':
+      frame = 6;
+      break;
+    case 'l':
+      frame = 9;
+      break;
+  }
+  sprite->drawSelfMasked(this->x,this->y, snakeSprite, frame);
 }
 
 /*** Private ***/

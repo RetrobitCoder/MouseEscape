@@ -11,7 +11,7 @@ void Level::start(Maus* mouse)
     drawLevelCard();
     makeFoodList();
     makeEnemyList();
-    mouse->updateMaus(WIDTH / 2, HEIGHT - 16);
+    mouse->updateMaus(WIDTH / 2, HEIGHT - mouseSprite[1]);
   }
 }
 
@@ -25,7 +25,7 @@ void Level::levelDraw(Sprites* sprite)
     if (foodNode->food != NULL) sprite->drawSelfMasked(foodNode->food->getX(), foodNode->food->getY(), foodSprites, foodNode->food->getFrame());
     foodNode = foodNode->next;
   }
-  //drawSnakes(sprite);
+  drawSnakes(sprite);
 }
 
 void Level::collisionCheck(Maus* mouse)
@@ -164,7 +164,7 @@ void Level::makeEnemyList()
 
   enemyNode* current = enemyRoot;
 
-  int maxEnemies = levelNum / 25;
+  int maxEnemies = (levelNum / 5);
   for (int i = 0; i < maxEnemies; i++)
   {
     enemyNode* enemy = new enemyNode;
@@ -234,5 +234,14 @@ void Level::cleanUp()
     next = current->next;
     if (next != NULL) delete current;
     current = next;
+  }
+
+  enemyNode* enCurrent = enemyRoot;
+  enemyNode* enNext = NULL;
+  while (enCurrent != NULL)
+  {
+    delete enCurrent->snake;
+    if (enNext != NULL) delete enCurrent; //TODO need to clean up snake body too
+    enCurrent = enNext;
   }
 }
