@@ -25,6 +25,11 @@ byte Snake::getSpeed()
   return this->moveSpeed;
 }
 
+char Snake::getFacing()
+{
+  return this->facing;
+}
+
 void Snake::updateSnake(byte newX, byte newY)
 {
   this->x = newX;

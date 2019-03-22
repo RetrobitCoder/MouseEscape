@@ -33,7 +33,7 @@ class Level_Abst
     byte goalY = 20;
     byte goalRadius = mouseSprite[0]/2;
     virtual void start(Maus* mouse) = 0;
-    virtual void levelUpdate(Maus* mouse) = 0;
+    virtual void levelUpdate() = 0;
     virtual void levelDraw(Sprites* sprite) = 0;
     virtual void collisionCheck(Maus* mouse) = 0;
 

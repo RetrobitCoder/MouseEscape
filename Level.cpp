@@ -2,8 +2,7 @@
 
 void Level::start(Maus* mouse)
 {
-  levelNum++;
-  setNum(levelNum);
+  setNum(getLevelNum() + 1);
 
   if (levelState() == LevelState::Running)
   {
@@ -12,6 +11,38 @@ void Level::start(Maus* mouse)
     makeFoodList();
     makeEnemyList();
     mouse->updateMaus(WIDTH / 2, HEIGHT - mouseSprite[1]);
+  }
+}
+
+void Level::levelUpdate()
+{
+  enemyNode* current = enemyRoot;
+  byte x = 0;
+  byte y = 0;
+  while (current != NULL)
+  {
+    if (current->snake != NULL)
+    {
+      y = current->snake->getY();
+      x = current->snake->getX();
+      switch(current->snake->getFacing())
+      {
+        case 'u':
+          y -= current->snake->getSpeed();
+          break;
+        case 'd':
+          y += current->snake->getSpeed();
+          break;
+        case 'r':
+          x += current->snake->getSpeed();
+          break;
+        case 'l':
+          x -= current->snake->getSpeed();
+          break;
+      }
+      current->snake->updateSnake(x,y);
+    }
+    current = current->next;
   }
 }
 
@@ -159,12 +190,12 @@ void Level::makeFoodList()
 void Level::makeEnemyList()
 {
   enemyRoot = new enemyNode;
-  enemyRoot->snake = new Snake(0, HEIGHT / 2, 'r', 3);
+  enemyRoot->snake = new Snake(0, HEIGHT / 2 - 2, 'r', 3);
   enemyRoot->next = NULL;
 
   enemyNode* current = enemyRoot;
 
-  int maxEnemies = (levelNum / 5);
+  int maxEnemies = (getLevelNum() / 5);
   for (int i = 0; i < maxEnemies; i++)
   {
     enemyNode* enemy = new enemyNode;
@@ -173,13 +204,13 @@ void Level::makeEnemyList()
     switch (i)
     {
       case 1:
-        enemy->snake = new Snake(WIDTH, HEIGHT / 2, 'l', 3);
+        enemy->snake = new Snake(WIDTH, 10, 'l', 3);
         break;
       case 2:
-        enemy->snake = new Snake(WIDTH / 2, 0, 'd', 3);
+        enemy->snake = new Snake(WIDTH / 8, 0, 'd', 3);
         break;
       case 3:
-        enemy->snake = new Snake(WIDTH / 2, HEIGHT, 'u', 3);
+        enemy->snake = new Snake((7 * WIDTH) / 8, HEIGHT, 'u', 3);
         break;
     }
     current = enemy;

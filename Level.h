@@ -5,7 +5,7 @@ class Level : public Level_Abst
   public:
     Level() {}
     void start(Maus* mouse);
-    void levelUpdate(Maus* mouse) {};
+    void levelUpdate();
     void levelDraw(Sprites* sprite);
     void collisionCheck(Maus* mouse);
 

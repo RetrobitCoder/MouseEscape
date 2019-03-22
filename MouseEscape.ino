@@ -1,10 +1,8 @@
 #include <Arduboy2.h>
 #include <Sprites.h>
 #include "Bitmaps.h"
-#include "Constants.h"
 #include "Maus.h"
 #include "Food.h"
-#include "Snake.h"
 #include "Level.h"
 
 enum class GameState : unsigned char
@@ -18,7 +16,6 @@ GameState gameState = GameState::Title;
 const byte FPS = 60;
 
 Maus maus;
-Snake snake;
 byte frame = 6;
 Level level;
 
@@ -52,10 +49,6 @@ void draw()
 {
   sprites.drawSelfMasked(maus.getX(), maus.getY(), mouseSprite, frame);
   level.levelDraw(&sprites);
-  //sprites.drawSelfMasked(32,0, snakeSprite, 0);
-  //sprites.drawSelfMasked(32, 1*snakeSprite[1], snakeSprite, 1);
-  //sprites.drawSelfMasked(32, 2*snakeSprite[1], snakeSprite, 1);
-  //sprites.drawSelfMasked(32, 3*snakeSprite[1], snakeSprite, 2);
 }
 
 void boundaryCheck()
@@ -106,6 +99,7 @@ void updateGame()
 
   boundaryCheck();
   level.collisionCheck(&maus);
+  level.levelUpdate();
   
   if (level.levelState() == LevelState::Won) gameState = GameState::Win;
   else if(level.levelState() == LevelState::Lost) gameState = GameState::GameOver;
