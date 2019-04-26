@@ -70,6 +70,7 @@ class Snake
     byte len;
     char facing;
     byte moveSpeed = 4;
+    void updateBody(body* part, byte nexX, byte newY);
 };
 
 #endif

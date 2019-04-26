@@ -32,6 +32,7 @@ char Snake::getFacing()
 
 void Snake::updateSnake(byte newX, byte newY)
 {
+  //updateBody(Body, this->x, this->y);
   this->x = newX;
   this->y = newY;
 }
@@ -58,3 +59,12 @@ void Snake::drawSnake(Sprites* sprite)
 }
 
 /*** Private ***/
+void Snake::updateBody(body* part, byte newX, byte newY)
+{
+  if(part != NULL)
+  {
+    updateBody(part->next, part->x, part->y);
+    part->x = newX;
+    part->y = newY;
+  }
+}
