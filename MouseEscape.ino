@@ -103,8 +103,8 @@ void updateGame()
   
   if (level.levelState() == LevelState::Won) gameState = GameState::Win;
   else if(level.levelState() == LevelState::Lost) gameState = GameState::GameOver;
-  //TODO: draw snakes
-  //TODO: move snakes
+  //TODO: draw snakes body
+  //TODO: move snakes body
   //TODO: add pause to game
 }
 

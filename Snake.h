@@ -51,7 +51,7 @@ typedef struct body
   int frame;
   byte x;
   byte y;
-} Body;
+};
 
 class Snake
 {
@@ -67,10 +67,13 @@ class Snake
   private:
     byte x;
     byte y;
+    body* parts;
     byte len;
     char facing;
     byte moveSpeed = 4;
     void updateBody(body* part, byte nexX, byte newY);
+    byte getBodyPos1(char facing, byte x, byte y, byte bodyIndex);
+    byte getBodyPos2(char facing, byte x, byte y);
 };
 
 #endif

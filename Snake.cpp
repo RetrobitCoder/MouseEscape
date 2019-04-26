@@ -6,8 +6,22 @@ Snake::Snake(byte startX, byte startY, char initDir, byte bodyLength)
 {
   this->x = startX;
   this->y = startY;
-  this->facing = initDir;
-  this->len = bodyLength;
+  this->facing;
+  
+  body* current = new body;
+  current->x = getBodyPos1(initDir, startX, startY, 1);
+  current->y = getBodyPos2(initDir, startX, startY);
+  current->next = NULL;
+  
+  for(int i = 1; i <= bodyLength; i++)
+  {
+    body* part = new body;
+    part->next = NULL;
+    part->x = getBodyPos1(initDir, startX, startY, i + 1);
+    part->y = getBodyPos2(initDir, startX, startY);
+    current->next = part;
+    current = part;
+  }
 }
 
 byte Snake::getX()
@@ -66,5 +80,33 @@ void Snake::updateBody(body* part, byte newX, byte newY)
     updateBody(part->next, part->x, part->y);
     part->x = newX;
     part->y = newY;
+  }
+}
+
+byte Snake::getBodyPos1(char facing, byte x, byte y, byte bodyIndex)
+{
+  switch(facing)
+  {
+    case 'l':
+      return (x - (bodyIndex * snakeSprite[0]));
+    case 'r':
+      return (x + (bodyIndex * snakeSprite[0]));
+    case 'u':
+      return (y + (bodyIndex * snakeSprite[1]));
+    case 'd':
+      return (y - (bodyIndex * snakeSprite[1]));
+  }
+}
+
+byte Snake::getBodyPos2(char facing, byte x, byte y)
+{
+  switch(facing)
+  {
+    case 'l':
+    case 'r':
+      return y;
+    case 'u':
+    case 'd':
+      return x;
   }
 }
