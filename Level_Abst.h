@@ -68,7 +68,7 @@ class Level_Abst
     void setNum(int num)
     {
       levelNum = num;
-      if (levelNum > 25) state = LevelState::Won;
+      if (levelNum > 20) state = LevelState::Won;
     }
 
     void addPoints(unsigned int amount)

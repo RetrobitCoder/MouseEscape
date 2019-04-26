@@ -196,11 +196,13 @@ void Level::makeEnemyList()
   enemyNode* current = enemyRoot;
 
   int maxEnemies = (getLevelNum() / 5);
-  for (int i = 0; i < maxEnemies; i++)
+  for (int i = 1; i <= maxEnemies; i++)
   {
     enemyNode* enemy = new enemyNode;
     enemy->next = NULL;
     current->next = enemy;
+    ab.setCursor(WIDTH/2,HEIGHT/2);
+    ab.print(i);
     switch (i)
     {
       case 1:
