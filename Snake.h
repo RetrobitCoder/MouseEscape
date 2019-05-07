@@ -45,14 +45,6 @@ const unsigned char PROGMEM snakeSprite[] =
 0x1f, 0x2e, 0x35, 0x1b, 0x2d, 0x36, 0x1b, 0x2c, 0x37, 0x18, 0x2f, 0x10, 0x0f, 0x05, 0x02, 0x01,
 };
 
-typedef struct body
-{
-  struct body* next;
-  int frame;
-  byte x;
-  byte y;
-};
-
 class Snake
 {
   public:
@@ -67,13 +59,13 @@ class Snake
   private:
     byte x;
     byte y;
-    body* parts;
+    int frame;
     byte len;
     char facing;
     byte moveSpeed = 4;
-    void updateBody(body* part, byte nexX, byte newY);
     byte getBodyPos1(char facing, byte x, byte y, byte bodyIndex);
-    byte getBodyPos2(char facing, byte x, byte y);
+    byte getBodyPos2(char facing, byte x, byte y, byte bodyIndex);
+    byte getFrame(char facing, bool isTail);
 };
 
 #endif

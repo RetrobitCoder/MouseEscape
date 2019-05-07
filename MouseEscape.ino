@@ -103,9 +103,12 @@ void updateGame()
   
   if (level.levelState() == LevelState::Won) gameState = GameState::Win;
   else if(level.levelState() == LevelState::Lost) gameState = GameState::GameOver;
-  //TODO: draw snakes body
-  //TODO: move snakes body
+  //TODO: handle snake collision
+  //TODO: maybe change collision with goal to make mouse be inside circle before next level
+  //TODO: check to see if better way to handle not needing link list. causing memory issues so had to redo how snake body is handled
   //TODO: add pause to game
+  //TODO: pretty Title, Win, and Lose screen
+  //TODO: check if possible to up level numbers, issue with flash light mode when holding up, and memory issues
 }
 
 void gameLoop()

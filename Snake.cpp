@@ -6,21 +6,22 @@ Snake::Snake(byte startX, byte startY, char initDir, byte bodyLength)
 {
   this->x = startX;
   this->y = startY;
-  this->facing;
-  
-  body* current = new body;
-  current->x = getBodyPos1(initDir, startX, startY, 1);
-  current->y = getBodyPos2(initDir, startX, startY);
-  current->next = NULL;
-  
-  for(int i = 1; i <= bodyLength; i++)
+  this->facing = initDir;
+  this->len = bodyLength;
+  switch(this->facing)
   {
-    body* part = new body;
-    part->next = NULL;
-    part->x = getBodyPos1(initDir, startX, startY, i + 1);
-    part->y = getBodyPos2(initDir, startX, startY);
-    current->next = part;
-    current = part;
+    case 'u':
+      this->frame = 0;
+      break;
+    case 'd':
+      this->frame = 5;
+      break;
+    case 'r':
+      this->frame = 6;
+      break;
+    case 'l':
+      this->frame = 9;
+      break;
   }
 }
 
@@ -46,59 +47,51 @@ char Snake::getFacing()
 
 void Snake::updateSnake(byte newX, byte newY)
 {
-  //updateBody(Body, this->x, this->y);
   this->x = newX;
   this->y = newY;
 }
 
 void Snake::drawSnake(Sprites* sprite)
 {
-  byte frame = 0;
-  switch(this->facing)
+  sprite->drawOverwrite(this->x,this->y, snakeSprite, this->frame);
+
+  byte x;
+  byte y;
+  byte frame;
+  
+  for(int i = 1; i <= this->len; i++)
   {
-    case 'u':
-      frame = 0;
-      break;
-    case 'd':
-      frame = 5;
-      break;
-    case 'r':
-      frame = 6;
-      break;
-    case 'l':
-      frame = 9;
-      break;
+    if(i == this->len)
+    {
+      frame = getFrame(this->facing, true);
+      x = getBodyPos1(this->facing, this->x, this->y, this->len);
+      y = getBodyPos2(this->facing, this->x, this->y, this->len);
+    }
+    else{
+      frame = getFrame(this->facing, false);
+      x = getBodyPos1(this->facing, this->x, this->y, this->len - i);
+      y = getBodyPos2(this->facing, this->x, this->y, this->len - i);
+    }
+    sprite->drawOverwrite(x, y, snakeSprite, frame);
   }
-  sprite->drawSelfMasked(this->x,this->y, snakeSprite, frame);
 }
 
 /*** Private ***/
-void Snake::updateBody(body* part, byte newX, byte newY)
-{
-  if(part != NULL)
-  {
-    updateBody(part->next, part->x, part->y);
-    part->x = newX;
-    part->y = newY;
-  }
-}
-
 byte Snake::getBodyPos1(char facing, byte x, byte y, byte bodyIndex)
 {
   switch(facing)
   {
     case 'l':
-      return (x - (bodyIndex * snakeSprite[0]));
-    case 'r':
       return (x + (bodyIndex * snakeSprite[0]));
+    case 'r':
+      return (x - (bodyIndex * snakeSprite[0]));
     case 'u':
-      return (y + (bodyIndex * snakeSprite[1]));
     case 'd':
-      return (y - (bodyIndex * snakeSprite[1]));
+      return x;
   }
 }
 
-byte Snake::getBodyPos2(char facing, byte x, byte y)
+byte Snake::getBodyPos2(char facing, byte x, byte y, byte bodyIndex)
 {
   switch(facing)
   {
@@ -106,7 +99,27 @@ byte Snake::getBodyPos2(char facing, byte x, byte y)
     case 'r':
       return y;
     case 'u':
+      return (y + (bodyIndex * snakeSprite[1]));
     case 'd':
-      return x;
+      return (y - (bodyIndex * snakeSprite[1]));
+  }
+}
+
+byte Snake::getFrame(char facing, bool isTail)
+{
+  switch(facing)
+  {
+    case 'l':
+      if(isTail) return 11;
+      else return 10;
+    case 'r':
+      if(isTail) return 8;
+      else return 7;
+    case 'u':
+      if(isTail) return 2;
+      else return 1;
+    case 'd':
+      if(isTail) return 3;
+      else return 4;
   }
 }

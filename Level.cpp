@@ -201,12 +201,10 @@ void Level::makeEnemyList()
     enemyNode* enemy = new enemyNode;
     enemy->next = NULL;
     current->next = enemy;
-    ab.setCursor(WIDTH/2,HEIGHT/2);
-    ab.print(i);
     switch (i)
     {
       case 1:
-        enemy->snake = new Snake(WIDTH, 10, 'l', 3);
+        enemy->snake = new Snake(WIDTH, 12, 'l', 3);
         break;
       case 2:
         enemy->snake = new Snake(WIDTH / 8, 0, 'd', 3);
@@ -274,7 +272,7 @@ void Level::cleanUp()
   while (enCurrent != NULL)
   {
     delete enCurrent->snake;
-    if (enNext != NULL) delete enCurrent; //TODO need to clean up snake body too
+    if (enNext != NULL) delete enCurrent;
     enCurrent = enNext;
   }
 }
