@@ -41,6 +41,7 @@ void titleScreen()
   {
     gameState = GameState::Play;
     ab.delayShort(200);
+    maus.setInvincible(false);
     level.setLives(3);
     level.start(&maus);
   }
@@ -48,7 +49,8 @@ void titleScreen()
 
 void draw()
 {
-  sprites.drawSelfMasked(maus.getX(), maus.getY(), mouseSprite, frame);
+  if(maus.getInvincible() && (maus.getInvCount() % 3) == 0) sprites.drawErase(maus.getX(), maus.getY(), mouseSprite, frame);
+  else sprites.drawSelfMasked(maus.getX(), maus.getY(), mouseSprite, frame);
   level.levelDraw(&sprites);
 }
 
@@ -101,9 +103,8 @@ void updateGame()
   boundaryCheck();
   level.collisionCheck(&maus);
   level.levelUpdate();
-  //ab.setCursor(WIDTH/2,HEIGHT/2);
-  //ab.print(maus.getInvCount());
-  if(maus.getInvincible() && maus.getInvCount() == 120) maus.setInvincible(false);
+
+  if(maus.getInvincible() && maus.getInvCount() == FPS) maus.setInvincible(false);
   
   if (level.levelState() == LevelState::Won) gameState = GameState::Win;
   else if(level.levelState() == LevelState::Lost) gameState = GameState::GameOver;
@@ -112,6 +113,7 @@ void updateGame()
   //TODO: add pause to game
   //TODO: pretty Title, Win, and Lose screen
   //TODO: check if possible to up level numbers, issue with flash light mode when holding up, and memory issues
+  //TODO: remove unused code
 }
 
 void gameLoop()
