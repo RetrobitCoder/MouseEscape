@@ -43,7 +43,7 @@ void Level::levelUpdate()
       current->snake->updateSnake(x,y);
     }
     current = current->next;
-  }
+  }  
 }
 
 void Level::levelDraw(Sprites* sprite)
@@ -99,12 +99,11 @@ void Level::collisionCheck(Maus* mouse)
   enemyNode* enemyNode = enemyRoot;
   while(enemyNode != NULL)
   {
-      ab.setCursor(WIDTH/2,HEIGHT/2);
-  ab.print(enemyRoot->snake->getY());
-    if(ab.collide(Rect(mouse->getX(), mouse->getY(), mouseSprite[0], mouseSprite[1]), enemyNode->snake->getBody())) 
+    if(!mouse->getInvincible() && ab.collide(Rect(mouse->getX(), mouse->getY(), mouseSprite[0], mouseSprite[1]), enemyNode->snake->getBody())) 
     {
       playerDied();
       mouse->updateMaus(WIDTH / 2, HEIGHT - mouseSprite[1]);
+      mouse->setInvincible(true);
       break;
     }
     enemyNode = enemyNode->next;

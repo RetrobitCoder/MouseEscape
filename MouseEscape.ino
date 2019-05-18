@@ -101,6 +101,9 @@ void updateGame()
   boundaryCheck();
   level.collisionCheck(&maus);
   level.levelUpdate();
+  //ab.setCursor(WIDTH/2,HEIGHT/2);
+  //ab.print(maus.getInvCount());
+  if(maus.getInvincible() && maus.getInvCount() == 120) maus.setInvincible(false);
   
   if (level.levelState() == LevelState::Won) gameState = GameState::Win;
   else if(level.levelState() == LevelState::Lost) gameState = GameState::GameOver;
