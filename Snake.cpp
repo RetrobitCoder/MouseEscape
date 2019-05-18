@@ -44,6 +44,27 @@ char Snake::getFacing()
 {
   return this->facing;
 }
+/* TODO: this is off. not calculating from right spot with l facing snake  probably others too*/
+Rect Snake::getBody()
+{
+  switch(facing)
+  {
+    case 'l':
+      if(this->x > (WIDTH * 2) - (this->len * snakeSprite[0])) 
+        return Rect(0, this->y, (this->len + 1) * snakeSprite[0] - ((WIDTH * 2) - this->x), snakeSprite[1]);
+      else return Rect(this->x, this->y, (this->len + 1) * snakeSprite[0], snakeSprite[1]);
+    case 'r':
+      if(this->x <= (this->len + 1) * snakeSprite[0]) return Rect(0, this->y, this->x + snakeSprite[0], snakeSprite[1]);
+      else return Rect(this->x - (len * snakeSprite[0]), this->y, (this->len + 1) * snakeSprite[0], snakeSprite[1]);
+    case 'u':
+      if(this->y > (WIDTH * 2) - (this->len * snakeSprite[1]))
+        return Rect(this->x, 0, snakeSprite[0], (this->len + 1) * snakeSprite[1] - ((WIDTH * 2) - this->y));
+      else return Rect(this->x, this->y, snakeSprite[0], (this->len + 1) * snakeSprite[1]);
+    case 'd':
+      if(this->y <= (this->len + 1) * snakeSprite[1]) return Rect(this->x, 0, snakeSprite[0], this->y + snakeSprite[1]);
+      else return Rect(this->x, this->y - (this->len * snakeSprite[1]), snakeSprite[0], (this->len + 1) * snakeSprite[1]);
+  }
+}
 
 void Snake::updateSnake(byte newX, byte newY)
 {

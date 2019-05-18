@@ -54,6 +54,7 @@ class Snake
     byte getY();
     byte getSpeed();
     char getFacing();
+    Rect getBody();
     void updateSnake(byte newX, byte newY);
     void drawSnake(Sprites* sprite);
   private:

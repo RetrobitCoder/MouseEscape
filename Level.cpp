@@ -67,6 +67,7 @@ void Level::collisionCheck(Maus* mouse)
   byte y2 = y1 + mouseSprite[1];
 
   foodNode* foodNode = foodRoot;
+  /* check food collision TODO: use collide function */
   while (foodNode != NULL)
   {
     if (foodNode->food != NULL)
@@ -85,13 +86,28 @@ void Level::collisionCheck(Maus* mouse)
     }
     foodNode = foodNode->next;
   }
-
+  /* check goal collision TODO: use collide function */
   if (goalX < x2 && (goalX + goalRadius) > x1)
   {
     if (goalY < y2 && (goalY + goalRadius) > y1)
     {
       start(mouse);
     }
+  }
+
+  /* snake collision */
+  enemyNode* enemyNode = enemyRoot;
+  while(enemyNode != NULL)
+  {
+      ab.setCursor(WIDTH/2,HEIGHT/2);
+  ab.print(enemyRoot->snake->getY());
+    if(ab.collide(Rect(mouse->getX(), mouse->getY(), mouseSprite[0], mouseSprite[1]), enemyNode->snake->getBody())) 
+    {
+      playerDied();
+      mouse->updateMaus(WIDTH / 2, HEIGHT - mouseSprite[1]);
+      break;
+    }
+    enemyNode = enemyNode->next;
   }
 }
 
@@ -192,7 +208,6 @@ void Level::makeEnemyList()
   enemyRoot = new enemyNode;
   enemyRoot->snake = new Snake(0, HEIGHT / 2 - 2, 'r', 3);
   enemyRoot->next = NULL;
-
   enemyNode* current = enemyRoot;
 
   int maxEnemies = (getLevelNum() / 5);

@@ -41,6 +41,7 @@ void titleScreen()
   {
     gameState = GameState::Play;
     ab.delayShort(200);
+    level.setLives(3);
     level.start(&maus);
   }
 }
@@ -103,7 +104,6 @@ void updateGame()
   
   if (level.levelState() == LevelState::Won) gameState = GameState::Win;
   else if(level.levelState() == LevelState::Lost) gameState = GameState::GameOver;
-  //TODO: handle snake collision
   //TODO: maybe change collision with goal to make mouse be inside circle before next level
   //TODO: check to see if better way to handle not needing link list. causing memory issues so had to redo how snake body is handled
   //TODO: add pause to game
@@ -131,6 +131,8 @@ void gameLost()
   ab.clear();
   ab.setCursor(WIDTH/2, HEIGHT/2);
   ab.print("You Lost");
+
+  if (ab.pressed(A_BUTTON)) titleScreen();
 }
 
 void loop()

@@ -50,6 +50,7 @@ class Level_Abst
     void playerDied()
     {
       if (lives == 0) state = LevelState::Lost;
+      else lives--;
     }
 
     void lifeUp()
@@ -63,6 +64,14 @@ class Level_Abst
     unsigned int getLives()
     {
       return lives;
+    }
+
+    /* should only be called after game is lost and starting over */
+    void setLives(unsigned int num)
+    {
+      lives = num;
+      state = LevelState::Running;
+      levelNum = 0;
     }
     
     void setNum(int num)
