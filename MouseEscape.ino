@@ -32,8 +32,7 @@ void setup()
 
 void titleScreen()
 {
-  ab.setCursor(WIDTH / 2 - 32, HEIGHT / 2);
-  ab.print("Mouse Escape");
+  sprites.drawSelfMasked(0,0, gameTitle, 0);
   ab.setCursor(24, HEIGHT - 8);
   ab.print("Press A Button");
 
@@ -108,7 +107,6 @@ void updateGame()
   
   if (level.levelState() == LevelState::Won) gameState = GameState::Win;
   else if(level.levelState() == LevelState::Lost) gameState = GameState::GameOver;
-  //TODO: pretty Title, Win, and Lose screen
 }
 
 void gameLoop()
@@ -123,15 +121,21 @@ void gameLoop()
 void gameWon()
 {
   ab.clear();
-  ab.setCursor(WIDTH/2, HEIGHT/2);
-  ab.print("You Win");
+  sprites.drawSelfMasked(0,0, win, 0);
+
+  if(ab.pressed(A_BUTTON))
+  {
+    gameState = GameState::Title;
+    ab.clear();
+  }
 }
 
 void gameLost()
 {
   ab.clear();
-  ab.setCursor(WIDTH/2, HEIGHT/2);
-  ab.print("You Lost");
+  sprites.drawSelfMasked(0,0, lose, 0);
+  ab.setCursor(24, HEIGHT - 8);
+  ab.print("Press A Button");
 
   if(ab.pressed(A_BUTTON))
   {
