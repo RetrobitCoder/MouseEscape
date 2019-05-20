@@ -37,7 +37,7 @@ void titleScreen()
   ab.setCursor(24, HEIGHT - 8);
   ab.print("Press A Button");
 
-  if (ab.pressed(A_BUTTON))
+  if (ab.justPressed(A_BUTTON))
   {
     gameState = GameState::Play;
     ab.delayShort(200);
@@ -108,12 +108,7 @@ void updateGame()
   
   if (level.levelState() == LevelState::Won) gameState = GameState::Win;
   else if(level.levelState() == LevelState::Lost) gameState = GameState::GameOver;
-  //TODO: maybe change collision with goal to make mouse be inside circle before next level
-  //TODO: check to see if better way to handle not needing link list. causing memory issues so had to redo how snake body is handled
-  //TODO: add pause to game
   //TODO: pretty Title, Win, and Lose screen
-  //TODO: check if possible to up level numbers, issue with flash light mode when holding up, and memory issues
-  //TODO: remove unused code
 }
 
 void gameLoop()
@@ -122,6 +117,7 @@ void gameLoop()
   draw();
   ab.delayShort(100);
   updateGame();
+  if(ab.justPressed(A_BUTTON)) gameState = GameState::Pause;
 }
 
 void gameWon()
@@ -137,7 +133,18 @@ void gameLost()
   ab.setCursor(WIDTH/2, HEIGHT/2);
   ab.print("You Lost");
 
-  if (ab.pressed(A_BUTTON)) titleScreen();
+  if(ab.pressed(A_BUTTON))
+  {
+    gameState = GameState::Title;
+    ab.clear();
+  }
+}
+
+void gamePause()
+{
+  ab.setCursor(WIDTH/2 - 16, HEIGHT/2);
+  ab.print("Paused");
+  if(ab.justPressed(A_BUTTON)) gameState = GameState::Play;
 }
 
 void loop()
@@ -155,6 +162,7 @@ void loop()
       gameLoop();
       break;
     case GameState::Pause:
+      gamePause();
       break;
     case GameState::Win:
       gameWon();

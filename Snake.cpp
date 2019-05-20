@@ -44,7 +44,7 @@ char Snake::getFacing()
 {
   return this->facing;
 }
-/* TODO: this is off. not calculating from right spot with l facing snake  probably others too*/
+
 Rect Snake::getBody()
 {
   switch(facing)

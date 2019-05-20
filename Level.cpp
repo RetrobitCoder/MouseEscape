@@ -10,7 +10,7 @@ void Level::start(Maus* mouse)
     drawLevelCard();
     makeFoodList();
     makeEnemyList();
-    mouse->updateMaus(WIDTH / 2, HEIGHT - mouseSprite[1]);
+    mouse->updateMaus(WIDTH / 2 - mouseSprite[0]/2, HEIGHT - mouseSprite[1]);
   }
 }
 
@@ -65,44 +65,39 @@ void Level::collisionCheck(Maus* mouse)
   byte y1 = mouse->getY();
   byte x2 = x1 + mouseSprite[0];
   byte y2 = y1 + mouseSprite[1];
+  Rect mouseRect = Rect(mouse->getX(), mouse->getY(), mouseSprite[0], mouseSprite[1]);
+  Rect goalRect(goalX - 2, goalY, goalRadius/2, goalRadius/2);
 
   foodNode* foodNode = foodRoot;
-  /* check food collision TODO: use collide function */
+  /* check food collision */
   while (foodNode != NULL)
   {
     if (foodNode->food != NULL)
     {
-      if (foodNode->food->getX() >= x1 && foodNode->food->getX() + foodSprites[0] <= x2)
+      if(ab.collide(Rect(foodNode->food->getX(), foodNode->food->getY(), foodSprites[0], foodSprites[1]), mouseRect))
       {
-        if (foodNode->food->getY() >= y1 && foodNode->food->getY() + foodSprites[1] <= y2)
-        {
-          collectedFood();
-          addPoints(foodNode->food->getValue());
-
-          delete foodNode->food;
-          foodNode->food = NULL;
-        }
+        collectedFood();
+        addPoints(foodNode->food->getValue());
+        delete foodNode->food;
+        foodNode->food = NULL;
       }
     }
     foodNode = foodNode->next;
   }
-  /* check goal collision TODO: use collide function */
-  if (goalX < x2 && (goalX + goalRadius) > x1)
+  /* check goal collision */
+  if(ab.collide(goalRect, mouseRect))
   {
-    if (goalY < y2 && (goalY + goalRadius) > y1)
-    {
-      start(mouse);
-    }
+    start(mouse);
   }
 
   /* snake collision */
   enemyNode* enemyNode = enemyRoot;
   while(enemyNode != NULL)
   {
-    if(!mouse->getInvincible() && ab.collide(Rect(mouse->getX(), mouse->getY(), mouseSprite[0], mouseSprite[1]), enemyNode->snake->getBody())) 
+    if(!mouse->getInvincible() && ab.collide(mouseRect, enemyNode->snake->getBody())) 
     {
       playerDied();
-      mouse->updateMaus(WIDTH / 2, HEIGHT - mouseSprite[1]);
+      mouse->updateMaus(WIDTH / 2 - mouseSprite[0]/2, HEIGHT - mouseSprite[1]);
       mouse->setInvincible(true);
       break;
     }
@@ -282,11 +277,12 @@ void Level::cleanUp()
   }
 
   enemyNode* enCurrent = enemyRoot;
-  enemyNode* enNext = NULL;
+  enemyNode* enNext = enemyRoot->next;
   while (enCurrent != NULL)
   {
     delete enCurrent->snake;
     if (enNext != NULL) delete enCurrent;
     enCurrent = enNext;
+    enNext = enCurrent->next;
   }
 }
