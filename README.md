@@ -18,7 +18,7 @@ Arduboy Library: Arduboy2
 
 You are a field mouse out collecting food to eat, when snakes become aware of your presence.
 
-You must collect as much food as you can and return home before you are hitten by the snakes.
+You must collect as much food as you can and return home before you are bitten by the snakes.
 
 ## How To Play
 ___
